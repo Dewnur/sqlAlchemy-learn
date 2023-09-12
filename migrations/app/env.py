@@ -1,15 +1,13 @@
+import importlib
 from logging.config import fileConfig
 
+from alembic import context
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
-
-from alembic import context
 
 from app.config import DB_HOST, DB_USER, DB_PORT, DB_NAME, DB_PASS
 from app.models.base_model import Base
 
-# this is the Alembic Config object, which provides
-# access to the values within the .ini file in use.
 config = context.config
 
 section = config.config_ini_section
@@ -19,21 +17,23 @@ config.set_section_option(section, 'DB_USER', DB_USER)
 config.set_section_option(section, 'DB_NAME', DB_NAME)
 config.set_section_option(section, 'DB_PASS', DB_PASS)
 
-# Interpret the config file for Python logging.
-# This line sets up loggers basically.
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-# add your model's MetaData object here
-# for 'autogenerate' support
-# from myapp import mymodel
-# target_metadata = mymodel.Base.metadata
-target_metadata = Base.metadata
+# Подключение всех моделей
+WANT_MODEL_FILES = (
+    'app.models.base_model',
+    'app.models.student_model',
+    'app.models.employee_model',
+)
 
-# other values from the config, defined by the needs of env.py,
-# can be acquired:
-# my_important_option = config.get_main_option("my_important_option")
-# ... etc.
+for want_model_file in WANT_MODEL_FILES:
+    try:
+        loaded_module = importlib.import_module(want_model_file)
+    except ModuleNotFoundError:
+        print(f'Could not import module {want_model_file}')
+
+target_metadata = Base.metadata
 
 
 def run_migrations_offline() -> None:
