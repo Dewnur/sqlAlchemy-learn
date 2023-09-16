@@ -1,25 +1,17 @@
 import asyncio
+from uuid import UUID
 
-from sqlalchemy import insert
-from sqlalchemy.ext.asyncio import async_sessionmaker, AsyncSession
-
-from app.datebase import async_session
-from app.models.student_model import Student
-from app.models.user_model import Gender
-
-
-async def insert_student(
-        async_session: async_sessionmaker[AsyncSession],
-) -> None:
-    async with async_session() as session:
-        stmt = insert(Student).values(name="Jane", age=22, gender=Gender.female)
-        await session.execute(stmt)
-        await session.commit()
-        return
+from app import crud
+from app.db.init_db import init_db, clear_db
+from app.db.session import async_session
 
 
 async def async_main() -> None:
-    await insert_student(async_session)
+    # await clear_db(async_session)
+    # await init_db(async_session)
+    obj = await crud.user.fetch_all(age=25, db_session=async_session)
+    print(len(obj))
+    print(obj)
 
 
 if __name__ == '__main__':
