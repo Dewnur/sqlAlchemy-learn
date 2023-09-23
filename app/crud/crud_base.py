@@ -1,7 +1,6 @@
-from typing import TypeVar, Generic, Tuple, Any, Sequence
-from uuid import UUID
+from typing import TypeVar, Generic, Any, Sequence
 
-from sqlalchemy import select, text, Row
+from sqlalchemy import select, Row, insert, update, delete
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from app.models.base_model import Base
@@ -19,21 +18,44 @@ class CRUDBase(Generic[ModelType]):
         async with db_session() as session:
             query = select(self.model).filter_by(**filter)
             result = await session.execute(query)
-            return result.fetchone()
+            result = result.fetchone()
+            return result[0] if result else None
 
     async def fetch_all(
             self, db_session: async_sessionmaker[AsyncSession] | None = None, **filter,
-    ) -> Sequence[Row[tuple[Any, ...] | Any]]:
+    ) -> Sequence[Row[tuple[Any, ...] | Any]] | None:
         async with db_session() as session:
             query = select(self.model).filter_by(**filter)
             result = await session.execute(query)
-            return result.fetchall()
+            result = result.fetchall()
+            return result if result else None
 
-    async def create(self):
-        pass
+    async def create(
+            self, model: ModelType, db_session: async_sessionmaker[AsyncSession] | None = None,
+    ) -> None:
+        async with db_session() as session:
+            data = model.__dict__.copy()
+            data.pop('_sa_instance_state')
+            stmt = insert(self.model).values(**data)
+            await session.execute(stmt)
+            await session.commit()
 
-    async def update(self):
-        pass
+    async def update(
+            self, model: ModelType, db_session: async_sessionmaker[AsyncSession] | None = None, **param
+    ) -> None:
+        async with db_session() as session:
+            data = model.__dict__.copy()
+            data.pop('_sa_instance_state')
+            stmt = update(self.model).filter_by(id=data['id']).values(**param)
+            await session.execute(stmt)
+            await session.commit()
 
-    async def delete(self):
-        pass
+    async def delete(
+            self, model: ModelType, db_session: async_sessionmaker[AsyncSession] | None = None
+    ) -> None:
+        async with db_session() as session:
+            data = model.__dict__.copy()
+            data.pop('_sa_instance_state')
+            stmt = delete(self.model).filter_by(id=data['id'])
+            await session.execute(stmt)
+            await session.commit()
