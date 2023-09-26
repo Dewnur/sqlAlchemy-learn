@@ -1,8 +1,11 @@
 from enum import Enum
+from typing import List
 
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models.base_model import BaseUUIDModel
+from app.models.employee_model import Employee
+from app.models.student_model import Student
 
 
 class Gender(str, Enum):
@@ -22,5 +25,6 @@ class User(BaseUUIDModel):
     email: Mapped[str] = mapped_column(nullable=True, unique=True)
     bio: Mapped[str] = mapped_column(nullable=True)
     phone_number: Mapped[str] = mapped_column(nullable=True)
-
+    employees: Mapped[List[Employee]] = relationship("Employee")
+    students: Mapped[List[Student]] = relationship("Student")
 

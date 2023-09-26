@@ -1,6 +1,6 @@
-from typing import TypeVar, Generic, Any, Sequence
+from typing import TypeVar, Generic, List
 
-from sqlalchemy import select, Row, insert, update, delete
+from sqlalchemy import select, insert, update, delete
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from app.models.base_model import Base
@@ -23,12 +23,12 @@ class CRUDBase(Generic[ModelType]):
 
     async def fetch_all(
             self, db_session: async_sessionmaker[AsyncSession] | None = None, **filter,
-    ) -> Sequence[Row[tuple[Any, ...] | Any]] | None:
+    ) -> List[ModelType] | None:
         async with db_session() as session:
             query = select(self.model).filter_by(**filter)
             result = await session.execute(query)
             result = result.fetchall()
-            return result if result else None
+            return [row[0] for row in result] if result else None
 
     async def create(
             self, model: ModelType, db_session: async_sessionmaker[AsyncSession] | None = None,
