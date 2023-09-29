@@ -1,5 +1,5 @@
 DATA = {
-    'faculty': [
+    'faculties': [
         'Biology',
         'Chemistry',
         'Physics',
