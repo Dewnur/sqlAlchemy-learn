@@ -31,7 +31,8 @@ class CRUDBase(Generic[ModelType]):
             return [row[0] for row in result] if result else None
 
     async def create(
-            self, model: ModelType, db_session: async_sessionmaker[AsyncSession] | None = None,
+            self, model: ModelType,
+            db_session: async_sessionmaker[AsyncSession] | None = None,
     ) -> None:
         async with db_session() as session:
             data = model.__dict__.copy()
@@ -41,7 +42,8 @@ class CRUDBase(Generic[ModelType]):
             await session.commit()
 
     async def update(
-            self, model: ModelType, db_session: async_sessionmaker[AsyncSession] | None = None, **param
+            self, model: ModelType,
+            db_session: async_sessionmaker[AsyncSession] | None = None, **param
     ) -> None:
         async with db_session() as session:
             data = model.__dict__.copy()
@@ -51,7 +53,8 @@ class CRUDBase(Generic[ModelType]):
             await session.commit()
 
     async def delete(
-            self, model: ModelType, db_session: async_sessionmaker[AsyncSession] | None = None
+            self, model: ModelType,
+            db_session: async_sessionmaker[AsyncSession] | None = None
     ) -> None:
         async with db_session() as session:
             data = model.__dict__.copy()

@@ -2,9 +2,17 @@ version: "3"
 
 services:
   db:
-    container_name: db_alchemy
-    env_file:
-      - .env
+    container_name: postgres_db
+    env_file: ".env"
     image: postgres:latest
     ports:
       - "5433:5432"
+    volumes:
+      - ./uuid-ossp.sql:/docker-entrypoint-initdb.d/uuid-ossp.sql
+
+  mongo:
+    container_name: mongo_db
+    env_file: ".env"
+    image: mongo:latest
+    ports:
+      - "27017:27017"

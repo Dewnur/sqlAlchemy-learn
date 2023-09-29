@@ -1,11 +1,13 @@
 from enum import Enum
-from typing import List
+from typing import TYPE_CHECKING
 
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models.base_model import BaseUUIDModel
-from app.models.employee_model import Employee
-from app.models.student_model import Student
+
+if TYPE_CHECKING:
+    from app.models.student_model import Student
+    from app.models.employee_model import Employee
 
 
 class Gender(str, Enum):
@@ -23,8 +25,7 @@ class User(BaseUUIDModel):
     age: Mapped[int] = mapped_column(nullable=True)
     gender: Mapped[Gender] = mapped_column(default=Gender.other)
     email: Mapped[str] = mapped_column(nullable=True, unique=True)
-    bio: Mapped[str] = mapped_column(nullable=True)
     phone_number: Mapped[str] = mapped_column(nullable=True)
-    employees: Mapped[List[Employee]] = relationship("Employee")
-    students: Mapped[List[Student]] = relationship("Student")
 
+    student: Mapped['Student'] = relationship(back_populates='user', lazy='selectin')
+    employee: Mapped['Employee'] = relationship(back_populates='user', lazy='selectin')
