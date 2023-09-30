@@ -2,27 +2,20 @@ from sqlalchemy import delete
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from app import crud
-from app.db.data import DATA
 from app.db.random_data import *
 from app.db.session import mongo_client as client
-from app.models.user_model import User
-from app.utils.timer import func_timer
+from app.models.teacher_model import Teacher
+from app.utils.timer import async_timer
 
-COLLECTIONS_LIST = ['facults', ]
-MODELS_LIST = [Student, Employee, User]
+MODELS_LIST = [Teacher, Student, Employee, User]
 
 
-@func_timer
+@async_timer
 async def init_db(async_session: async_sessionmaker[AsyncSession]) -> None:
     length_employees = 50
     length_students = 950
-    db = client.database
 
     await clear_db(async_session)
-
-    await db.faculties.insert_many(
-        list([{'_id': str(uuid.uuid4()), 'name': f} for f in DATA['faculties']])
-    )
 
     for i in range(length_employees):
         user = get_random_user()

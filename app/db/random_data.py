@@ -29,13 +29,10 @@ def get_random_employee(user: User) -> Employee:
     return Employee(
         user_id=user.id,
         salary=random.randint(40000, 100000),
-        specialization='teacher',
-        position=None
     )
 
 
 def get_random_student(user: User) -> Student:
     return Student(
         user_id=user.id,
-        curse=1,
     )

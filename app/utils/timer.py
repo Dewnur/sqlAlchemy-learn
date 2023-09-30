@@ -1,7 +1,7 @@
 from timeit import default_timer as timer
 
 
-def func_timer(func):
+def async_timer(func):
     async def wrapper(*args, **kwargs):
         start_time = timer()
         result = await func(*args, **kwargs)
