@@ -28,6 +28,9 @@ WANT_MODEL_FILES = (
     'app.models.user_model',
     'app.models.teacher_model',
     'app.models.group_model',
+    'app.models.class_model',
+    'app.models.links.class_group_model',
+    'app.models.links.class_teacher_model',
 )
 
 for want_model_file in WANT_MODEL_FILES:

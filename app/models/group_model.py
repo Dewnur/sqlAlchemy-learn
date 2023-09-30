@@ -13,6 +13,7 @@ if TYPE_CHECKING:
 class Group(BaseUUIDModel):
     __tablename__ = "group"
 
+    name: Mapped[str] = mapped_column()
     student_id: Mapped[UUID] = mapped_column(ForeignKey('student.id'))
     students: Mapped[list['Student']] = relationship(
         back_populates='group', lazy='selectin')
