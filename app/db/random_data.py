@@ -3,9 +3,7 @@ import uuid
 
 from faker import Faker
 
-from app.models.employee_model import Employee
-from app.models.student_model import Student
-from app.models.user_model import User, Gender
+from app.models import User, Gender, Employee, Student
 from app.utils.random_string import random_string
 
 fake = Faker(['ru_RU'])

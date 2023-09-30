@@ -17,3 +17,4 @@ class Employee(BaseUUIDModel, Profile):
     position: Mapped[str] = mapped_column(nullable=True)
 
     user: Mapped['User'] = relationship(back_populates='employee', lazy='selectin')
+    teacher: Mapped['Teacher'] = relationship(back_populates='employee', lazy='selectin')

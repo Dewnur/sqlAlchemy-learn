@@ -15,8 +15,14 @@ class Base(AsyncAttrs, DeclarativeBase):
 
 class BaseUUIDModel(Base):
     __abstract__ = True
-    id: Mapped[UUID] = mapped_column(primary_key=True, server_default=text("uuid_generate_v4()"),
-                                     default=lambda: uuid.uuid4())
-    updated_at: Mapped[Optional[datetime]] = mapped_column(onupdate=datetime.utcnow(), default=datetime.utcnow(),
-                                                           nullable=True)
-    created_at: Mapped[Optional[datetime]] = mapped_column(default=datetime.utcnow(), nullable=True)
+    id: Mapped[UUID] = mapped_column(
+        primary_key=True,
+        server_default=text("uuid_generate_v4()"),
+        default=lambda: uuid.uuid4())
+    updated_at: Mapped[Optional[datetime]] = mapped_column(
+        onupdate=datetime.utcnow(),
+        default=datetime.utcnow(),
+        nullable=True)
+    created_at: Mapped[Optional[datetime]] = mapped_column(
+        default=datetime.utcnow(),
+        nullable=True)

@@ -12,3 +12,4 @@ engine = create_async_engine(DATABASE_URL)
 async_session = async_sessionmaker(engine, expire_on_commit=False)
 
 mongo_client = AsyncIOMotorClient(MONGO_URL, server_api=ServerApi('1'))
+
