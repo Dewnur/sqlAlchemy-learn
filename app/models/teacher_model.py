@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, List
 from uuid import UUID
 
 from sqlalchemy import ForeignKey
@@ -17,4 +17,4 @@ class Teacher(BaseUUIDModel):
     employee_id: Mapped[UUID] = mapped_column(ForeignKey('employee.id'))
 
     employee: Mapped['Employee'] = relationship(back_populates='teacher', lazy='selectin')
-    classes: Mapped['Class'] = relationship(back_populates='teacher', lazy='selectin')
+    classes: Mapped[List['Class']] = relationship(back_populates='teacher')

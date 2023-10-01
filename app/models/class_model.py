@@ -19,6 +19,6 @@ class Class(BaseUUIDModel):
     group_id: Mapped[UUID] = mapped_column(ForeignKey('group.id'), primary_key=True)
     teacher_id: Mapped[UUID] = mapped_column(ForeignKey('teacher.id'), primary_key=True)
 
-    subject: Mapped['Subject'] = relationship(backref='classes', lazy='selectin')
-    group: Mapped['Group'] = relationship(backref='classes', lazy='selectin')
-    teacher: Mapped['Teacher'] = relationship(backref='classes', lazy='selectin')
+    subject: Mapped['Subject'] = relationship(back_populates='classes', lazy='selectin')
+    group: Mapped['Group'] = relationship(back_populates='classes', lazy='selectin')
+    teacher: Mapped['Teacher'] = relationship(back_populates='classes', lazy='selectin')

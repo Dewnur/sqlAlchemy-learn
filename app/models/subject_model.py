@@ -14,4 +14,4 @@ class Subject(BaseUUIDModel):
     name: Mapped[str] = mapped_column()
     description: Mapped[str] = mapped_column()
 
-    classes: Mapped['Class'] = relationship(back_populates='teacher', lazy='selectin')
+    classes: Mapped['Class'] = relationship(back_populates='subject')

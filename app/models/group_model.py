@@ -19,4 +19,4 @@ class Group(BaseUUIDModel):
 
     students: Mapped[list['Student']] = relationship(
         back_populates='group', lazy='selectin')
-    classes: Mapped['Class'] = relationship(back_populates='teacher', lazy='selectin')
+    classes: Mapped['Class'] = relationship(back_populates='group')
