@@ -4,6 +4,5 @@ from app.models.employee_model import Employee
 from app.models.teacher_model import Teacher
 from app.models.group_model import Group
 from app.models.class_model import Class
-from app.models.links.class_group_model import ClassGroup
-from app.models.links.class_teacher_model import ClassTeacher
+from app.models.subject_model import Subject
 

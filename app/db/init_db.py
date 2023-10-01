@@ -17,8 +17,6 @@ async def init_db(async_session: async_sessionmaker[AsyncSession]) -> None:
     length_employees = 50
     length_students = 950
 
-    await clear_db(async_session)
-
     for i in range(length_employees):
         user = get_random_user()
         await crud.user.create(user, db_session=async_session)

@@ -8,6 +8,7 @@ from app.models.base_model import BaseUUIDModel
 
 if TYPE_CHECKING:
     from employee_model import Employee
+    from class_model import Class
 
 
 class Teacher(BaseUUIDModel):
@@ -16,3 +17,4 @@ class Teacher(BaseUUIDModel):
     employee_id: Mapped[UUID] = mapped_column(ForeignKey('employee.id'))
 
     employee: Mapped['Employee'] = relationship(back_populates='teacher', lazy='selectin')
+    classes: Mapped['Class'] = relationship(back_populates='teacher', lazy='selectin')
