@@ -13,5 +13,7 @@ if TYPE_CHECKING:
 class Student(BaseUUIDModel, Profile):
     __tablename__ = "student"
 
+    faculty: Mapped[str] = mapped_column()
+
     user: Mapped['User'] = relationship(back_populates='student', lazy='selectin')
     group: Mapped['Group'] = relationship(back_populates='students', lazy='selectin')
