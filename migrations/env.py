@@ -1,4 +1,3 @@
-import importlib
 from logging.config import fileConfig
 
 from alembic import context
@@ -6,7 +5,7 @@ from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
 from app.config import DB_HOST, DB_USER, DB_PORT, DB_NAME, DB_PASS
-from app.models.base_model import Base
+from app.models import Base
 
 config = context.config
 
@@ -19,25 +18,6 @@ config.set_section_option(section, 'DB_PASS', DB_PASS)
 
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
-
-# Подключение всех моделей
-WANT_MODEL_FILES = (
-    'app.models.base_model',
-    'app.models.student_model',
-    'app.models.employee_model',
-    'app.models.user_model',
-    'app.models.teacher_model',
-    'app.models.group_model',
-    'app.models.class_model',
-    'app.models.subject_model',
-
-)
-
-for want_model_file in WANT_MODEL_FILES:
-    try:
-        loaded_module = importlib.import_module(want_model_file)
-    except ModuleNotFoundError:
-        print(f'Could not import module {want_model_file}')
 
 target_metadata = Base.metadata
 

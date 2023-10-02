@@ -1,3 +1,4 @@
+from app.models.base_model import Base
 from app.models.user_model import User, Gender
 from app.models.student_model import Student
 from app.models.employee_model import Employee
